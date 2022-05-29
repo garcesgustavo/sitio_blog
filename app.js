@@ -23,9 +23,9 @@ let posts = [];
 app.get("/", function (req, res) {
   res.render("home", {
     homeStartingContent: homeStartingContent,
-    posts: posts
+    posts: posts,
   });
-  console.log(req.params. testing);
+  console.log(req.params.testing);
 });
 
 app.get("/about", function (req, res) {
@@ -49,15 +49,19 @@ app.post("/compose", function (req, res) {
 
   res.redirect("/");
 });
-app.get("/post/:postName", function(req,res) {
- var namePost = _.lowerCase(req.params.postName);
- 
-posts.forEach(function(post) {
-   if (namePost === _.lowerCase(post.title)) {
-     console.log("match found");
-   } else {console.log("No match found")};
- } );
+app.get("/post/:postName", function (req, res) {
+  var namePost = _.lowerCase(req.params.postName);
+
+  posts.forEach(function (post) {
+    if (namePost === _.lowerCase(post.title)) {
+      res.render("post", {
+        title: post.title,
+        content: post.content,
+      });
+    }
+  });
 });
+
 app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
